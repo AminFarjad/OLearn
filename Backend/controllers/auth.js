@@ -6,6 +6,8 @@ const nodemailer=require('nodemailer');
 const sendgridTransport=require('nodemailer-sendgrid-transport');
 const {validationResult}=require('express-validator')
 const api_key = require('../config/config');
+const from_email = 'sameer.raza9200@gmail.com'
+
 
 const transporter =nodemailer.createTransport(sendgridTransport({
     auth:{
@@ -60,7 +62,7 @@ exports.signup = (req,res)=>{
         }).then(res =>{
             transporter.sendMail({
                 to:email,
-                from:"ayush1911052@akgec.ac.in",
+                from: from_email,
                 subject:"OTP Verification",
                 html:` '<h1>Please Verify your account using this OTP: !</h1>
                         <p>OTP:${otp}</p>'`
@@ -176,7 +178,7 @@ exports.resendOtp = (req,res,next)=>{
     .then( ()=>{
         transporter.sendMail({
             to:email,
-            from:"ayush1911052@akgec.ac.in",
+            from:from_email,
             subject:"OTP Verification",
             html:` '<h1>Please Verify your account using this OTP: !</h1>
                     <p>OTP:${otp}</p>'`
@@ -232,7 +234,7 @@ exports.login = (req,res,next)=>{
                         .then(()=>{
                             transporter.sendMail({
                                 to:email,
-                                from:"ayush1911052@akgec.ac.in",
+                                from:from_email,
                                 subject:"OTP Verification",
                                 html:` '<h1>Please Verify your account using this OTP: !</h1>
                                         <p>OTP:${otp}</p>'`
@@ -251,7 +253,7 @@ exports.login = (req,res,next)=>{
                         .then(()=>{
                             transporter.sendMail({
                                 to:email,
-                                from:"ayush1911052@akgec.ac.in",
+                                from:from_email,
                                 subject:"OTP Verification",
                                 html:` '<h1>Please Verify your account using this OTP: !</h1>
                                         <p>OTP:${otp}</p>'`
@@ -335,7 +337,7 @@ exports.resetPassword = (req,res,next)=>{
         .then(result=>{
             transporter.sendMail({
                 to:email,
-                from:"ayush1911052@akgec.ac.in",
+                from:from_email,
                 subject:"Reset Password for shelp",
                 html:` '<h1>this is your otp to reset your password: ${otp}</h1>'`
             })
@@ -395,6 +397,7 @@ exports.newPassword = (req,res,next)=>{
     const email=req.body.email;
     const newPassword = req.body.newPassword;
     const confirmPassword=req.body.confirmPassword;
+    console.log(email, newPassword, confirmPassword)
     let resetUser;
 
     User.findOne({email:email})
